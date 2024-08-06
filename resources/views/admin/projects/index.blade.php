@@ -14,7 +14,7 @@
                     <tr>
                         <th scope="col">Nome</th>
                         <th scope="col">Tipo</th>
-                        <th scope="col">Linguaggio</th>
+                        <th scope="col">Tecnologia</th>
                         <th scope="col" class="text-center">Link Git Hub</th>
                         <th scope="col" class="text-center">Azioni</th>
                     </tr>
@@ -24,8 +24,24 @@
                     @foreach ($projects as $project)
                         <tr>
                             <td>{{ $project->nome}}</td>
-                            <td>{{  $project->type->nome }}</td>
-                            <td>{{ $project->linguaggio}}</td>
+                            @if ($project->type->nome == null)
+                            <td>None</td>
+                        @else
+                        <td>
+                            <span class="badge text" style="background-color: {{ $project->type->colore }}">{{ $project->type->nome}}</span>
+                        </td>
+
+                        @endif
+                            <td>
+                                @forelse ($project->Technologies as $technology)
+                                <span class="badge text" style="background-color: {{ $technology->colore }}">
+
+                                    {{ $technology->nome}}
+                                </span>
+                                @empty
+                                None
+                                @endforelse
+                            </td>
                             <td class="text-center"><a href=" {{ $project->url_repo}}">Clicca qui per Git Hub</a></td>
                             <td>
                                 <div class="d-flex justify-content-center">

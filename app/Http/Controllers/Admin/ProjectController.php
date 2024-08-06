@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Http\Request;
 
@@ -24,7 +25,8 @@ class ProjectController extends Controller
     public function create(Project $project)
     {
         $types = Type::all();
-        return view('admin.projects.create', compact("types"));
+        $technologies = Technology::all();
+        return view('admin.projects.create', compact("types", "technologies"));
     }
 
     /**
@@ -34,12 +36,13 @@ class ProjectController extends Controller
     {
         $data = $request->validate([
             "nome" => ["required", "min:1", "max:255"],
+            'technologies' => ['required', 'array', 'exists:technologies,id'],
             "type_id" =>["required", "integer", "exists:types,id"],
-            "linguaggio" =>["required", "min:1", "max:255"],
             "info" =>["nullable", "max:255"],
             "url_repo" =>["required", "url", "min:4", "max:255"],
         ]);
         $newProject = Project::create($data);
+        $newProject->technologies()->sync($data['technologies']);
 
         return redirect()->route('admin.projects.show', $newProject);
     }
@@ -58,7 +61,8 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $types = Type::all();
-        return view('admin.projects.edit', compact("project", "types"));
+        $technologies = Technology::all();
+        return view('admin.projects.edit', compact("project", "types", "technologies"));
     }
 
     /**
@@ -68,12 +72,13 @@ class ProjectController extends Controller
     {
         $data = $request->validate([
             "nome" => ["required", "min:1", "max:255"],
+            'technologies' => ['required', 'array', 'exists:technologies,id'],
             "type_id" =>["required", "integer", "exists:types,id"],
-            "linguaggio" =>["required", "min:1", "max:255"],
             "info" =>["nullable", "max:255"],
             "url_repo" =>["required", "url", "min:4", "max:255"],
         ]);
         $project->update($data);
+        $project->technologies()->sync($data['technologies']);
 
         return redirect()->route("admin.projects.show", $project);
     }
@@ -83,6 +88,7 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        $project->technologies()->detach();
         $project->delete();
         return redirect()->route('admin.projects.index');
     }

@@ -28,17 +28,25 @@
                         <input type="text" class="form-control" placeholder="Nome progetto" id="nome" name="nome" value="{{ old('nome') }}">
                     </div>
 
+                    <label for="technology_id">Linguaggio utilizzato</label>
+                    <div class=" d-flex flex-wrap ">
+                        @foreach ($technologies as $technology)
+                        <input name="technologies[]" type="checkbox" class="btn-check" id="technology-check-{{$technology->id}}" autocomplete="off" value="{{$technology->id}}"
+                        {{ in_array($technology->id, old('technologies', [])) ? "checked" : ""}}>
+                        <label class="btn btn-outline-primary mb-2 " for="technology-check-{{$technology->id}}" style="--dynamic-color: {{ $technology->colore }}">
+                            {{$technology->nome}}
+                        </label>
+
+                        @endforeach
+                    </div>
+
                     <div class="mb-3">
-                        <select class="form-select" aria-label="Default select example" name="type_id">
+                        <label for="type_id">Tipo</label>
+                        <select class="form-select" aria-label="Default select example" name="type_id" id="type_id">
                             @foreach ($types as $type)
                                 <option value="{{$type->id}}" {{($type->id == old("type_id")) ? "selected" : ""}}>{{$type->nome}}</option>
                             @endforeach
                         </select>
-                    </div>
-
-                    <div class="mb-3">
-                    <label for="linguaggio">Linguaggio</label>
-                    <input type="text" class="form-control" placeholder="Linguaggio" id="linguaggio" name="linguaggio" value="{{ old('linguaggio') }}">
                     </div>
 
                     <div class="mb-3">

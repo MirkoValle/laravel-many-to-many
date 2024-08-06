@@ -30,17 +30,34 @@
                     </div>
 
                     <div class="mb-3">
-                        <select class="form-select" aria-label="Default select example" name="type_id">
+                        <label for="type_id">Tipo</label>
+                        <select class="form-select" aria-label="Default select example" name="type_id" id="type_id">
                             @foreach ($types as $type)
                                 <option value="{{$type->id}}" {{($type->id == old("type_id", $project->type_id)) ? "selected" : ""}}>{{$type->nome}}</option>
                             @endforeach
                         </select>
                     </div>
 
-                    <div class="mb-3">
-                    <label for="linguaggio">Linguaggio</label>
-                    <input type="text" class="form-control" placeholder="Linguaggio" id="linguaggio" name="linguaggio" value="{{ old('linguaggio', $project->linguaggio) }}">
+                    <label for="technology_id">Linguaggio utilizzato</label>
+                        <div class=" d-flex flex-wrap ">
+                            @foreach ($technologies as $technology)
+                            @if ($errors->any())
+                            <input name="technologies[]" type="checkbox" class="btn-check" id="technology-check-{{$technology->id}}" autocomplete="off" value="{{$technology->id}}"
+                            {{ in_array($technology->id, old('technologies', [])) ? "checked" : ""}}
+                            >
+                            @else
+                            <input name="technologies[]" type="checkbox" class="btn-check" id="technology-check-{{$technology->id}}" autocomplete="off" value="{{$technology->id}}"
+                            {{ $project->technologies->contains($technology) ? "checked" : ""}}
+                            >
+                            @endif
+
+                            <label class="btn btn-outline-primary mb-2" for="technology-check-{{$technology->id}}" style="--dynamic-color: {{ $technology->colore }}">
+                                    <div class="inner">{{$technology->nome}}</div>
+                            </label>
+
+                            @endforeach
                     </div>
+
 
                     <div class="mb-3">
                         <label for="info">Info</label>
