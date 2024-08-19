@@ -21,7 +21,7 @@
         </div>
 
         <div class="col-8">
-            <form action="{{ route('admin.projects.update', $project)}}" method="POST" id="creation_form">
+            <form action="{{ route('admin.projects.update', $project)}}" method="POST" id="creation_form" enctype="multipart/form-data">
                 @csrf
                 @method("PUT")
                     <div class="mb-3">
@@ -66,7 +66,12 @@
 
                     <div class="mb-3">
                     <label for="url_repo">Link Git Hub</label>
-                    <input type="text" class="form-control"  placeholder="Url" id="url_repo" name="url_repo" value="{{ old('url_repo', $project->url_repo) }}">
+                    <input type="text" class="form-control"  placeholder="Url" id="url_repo" name="url_repo">
+                    </div>
+
+                    <div>
+                        <label for="img" class="form-label">Inserisci immagine</label>
+                        <input class="form-control mb-3" type="file" id="img" name="img" value="{{ old('img', $project->img)}}">
                     </div>
 
 

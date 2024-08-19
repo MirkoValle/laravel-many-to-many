@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->string('nome', 255);
-            $table->string('linguaggio', 255);
             $table->string('info', 255);
             $table->string('url_repo')->nullable();
+            $table->string('img')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

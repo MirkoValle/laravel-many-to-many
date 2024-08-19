@@ -21,11 +21,20 @@
         </div>
 
         <div class="col-8">
-            <form action="{{ route('admin.projects.store')}}" method="POST" id="creation_form">
+            <form action="{{ route('admin.projects.store')}}" method="POST" id="creation_form" enctype="multipart/form-data">
                 @csrf
                     <div class="mb-3">
                         <label for="nome">Nome</label>
                         <input type="text" class="form-control" placeholder="Nome progetto" id="nome" name="nome" value="{{ old('nome') }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="type_id">Tipo</label>
+                        <select class="form-select" aria-label="Default select example" name="type_id" id="type_id">
+                            @foreach ($types as $type)
+                                <option value="{{$type->id}}" {{($type->id == old("type_id")) ? "selected" : ""}}>{{$type->nome}}</option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <label for="technology_id">Linguaggio utilizzato</label>
@@ -40,14 +49,6 @@
                         @endforeach
                     </div>
 
-                    <div class="mb-3">
-                        <label for="type_id">Tipo</label>
-                        <select class="form-select" aria-label="Default select example" name="type_id" id="type_id">
-                            @foreach ($types as $type)
-                                <option value="{{$type->id}}" {{($type->id == old("type_id")) ? "selected" : ""}}>{{$type->nome}}</option>
-                            @endforeach
-                        </select>
-                    </div>
 
                     <div class="mb-3">
                         <label for="info">Info</label>
@@ -59,6 +60,10 @@
                     <input type="text" class="form-control"  placeholder="Url" id="url_repo" name="url_repo" value="{{ old('url_repo') }}">
                     </div>
 
+                    <div>
+                        <label for="img" class="form-label">Inserisci immagine</label>
+                        <input class="form-control mb-3" type="file" id="img" name="img">
+                    </div>
 
                     <div class="d-flex justify-content-between mt-3">
 

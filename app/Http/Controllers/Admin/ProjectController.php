@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -40,7 +41,12 @@ class ProjectController extends Controller
             "type_id" =>["required", "integer", "exists:types,id"],
             "info" =>["nullable", "max:255"],
             "url_repo" =>["required", "url", "min:4", "max:255"],
+            "img" =>["image"]
         ]);
+
+        $img_path = Storage::put('uploads/projects', $data['img']);
+        $data['img'] = $img_path;
+
         $newProject = Project::create($data);
         $newProject->technologies()->sync($data['technologies']);
 
@@ -76,7 +82,12 @@ class ProjectController extends Controller
             "type_id" =>["required", "integer", "exists:types,id"],
             "info" =>["nullable", "max:255"],
             "url_repo" =>["required", "url", "min:4", "max:255"],
+            "img" =>["image", "nullable"]
         ]);
+
+        $img_path = Storage::put('uploads/projects', $data['img']);
+        $data['img'] = $img_path;
+
         $project->update($data);
         $project->technologies()->sync($data['technologies']);
 

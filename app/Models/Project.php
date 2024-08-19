@@ -14,9 +14,9 @@ class Project extends Model
     protected $fillable = [
         'type_id',
         'nome',
-        'linguaggio',
         'info',
-        'url_repo'
+        'url_repo',
+        'img'
     ];
 
     public function type(){

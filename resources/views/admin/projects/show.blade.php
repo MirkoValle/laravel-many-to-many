@@ -27,6 +27,7 @@
                 @endforelse</p>
             <p><a href=" {{ $project->url_repo}}">Clicca qui per Git Hub</a></p>
             <p> <strong>Info:</strong>  {{$project->info}}</p>
+            <img src="{{ asset('storage/' . $project->img ) }}" alt="{{$project->nome}}" class="img-fluid">
         </div>
         <div class="d-flex">
             <a href="{{ route('admin.projects.edit', $project)}}" class="btn btn-warning d-flex justify-content-center">Edit</a>
